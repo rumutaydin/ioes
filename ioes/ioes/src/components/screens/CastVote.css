@@ -1,0 +1,48 @@
+.cast-vote-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .cast-vote-banner {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .cast-vote-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .cast-vote-subtitle {
+    font-size: 16px;
+    color: #888;
+  }
+  
+  .candidates-list {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f8f8f8;
+  }
+  
+  .candidate-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  label {
+    font-size: 16px;
+  }
+  
+  .loading-message {
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+  }
+  
