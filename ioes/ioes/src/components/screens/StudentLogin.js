@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import logo from './iyteee.png';
 
-function Login() {
+function StudentLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   const handleEmailChange = (event) => {
@@ -17,11 +18,15 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const handleAdminLogin = () => {
+    navigate('/admin-login');
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/api/login', {
+      const response = await fetch('http://localhost:8080/api/student/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,9 +36,10 @@ function Login() {
 
       if (response.ok) {
         console.log('Login successful');
-        navigate('/main');
+        navigate('/student-main');
       } else {
         console.log('Invalid credentials');
+        setErrorMessage('Invalid credentials');
       }
     } catch (error) {
       console.error(error);
@@ -52,8 +58,10 @@ function Login() {
           <h2 className="header-title">Izmir Institute of Technology</h2>
         </div>
         <p className="system-text">IZTECH Online Election System</p>
+        <button className='admin-log-button' onClick={handleAdminLogin}>Admin Login</button>
       </header>
       <div className="container">
+      {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <input
@@ -78,8 +86,9 @@ function Login() {
             Forgot My Password
           </button>
         </form>
+        
       </div>
     </div>
   );
 }
-export default Login;
+export default StudentLogin;

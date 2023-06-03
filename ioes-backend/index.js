@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.static('../ioes/ioes/build'));
 app.use(express.json());
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/student/login', async (req, res) => {
     const { username, password } = req.body;
   
     try {
@@ -48,6 +48,35 @@ app.post('/api/login', async (req, res) => {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
     }
+});
+
+app.post('/api/admin/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Connect to the MongoDB database
+    
+    const db = client.db("election");
+    const collection = db.collection("admins");
+
+    // Find the user with the provided username and password
+    const user = await collection.findOne({ username, password });
+
+    if (user) {
+      // Successful login
+      res.status(200).json({ message: 'Login successful' });
+    } else {
+      // Invalid credentials
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Close the database connection
+    
+  } 
+  catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 
