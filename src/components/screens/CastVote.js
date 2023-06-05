@@ -27,6 +27,7 @@ const CastVote = () => {
       const response = await axios.get('http://localhost:8080/api/student/deptNo', {
         headers: {
           Authorization: 'Bearer <token>', //??????????????????????
+          ////Bu bir denemedir
         },
       });
 
