@@ -12,10 +12,10 @@ async function connectDatabase(client) {
     }
   }
 
-  async function getCandidates(collection) {
+  async function getCandidates(collection, department) {
     try {
-      // Fetch the candidate data
-      const candidates = await collection.find({}).toArray();
+      // Fetch the candidate data based on the department number
+      const candidates = await collection.find({ deptNo: department }).toArray();
       return candidates;
     } catch (error) {
       console.error(error);

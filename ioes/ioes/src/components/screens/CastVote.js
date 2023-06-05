@@ -4,14 +4,47 @@ import './CastVote.css';
 
 const CastVote = () => {
   const [candidates, setCandidates] = useState([]);
+  const [deptNo, setDeptNo] = useState(null);
+
 
   useEffect(() => {
-    fetchCandidates();
+    // Fetch the logged-in student's department number from the backend
+    fetchDeptNo();
   }, []);
+
+  useEffect(() => {
+    // Fetch candidates when the department number is available
+    if (deptNo !== null) {
+      fetchCandidates();
+    }
+  }, [deptNo]);
+
+
+  const fetchDeptNo = async () => {
+    try {
+      // Make an API call to fetch the logged-in student's department number
+      const token = localStorage.getItem('token'); // Retrieve the token from local storage
+      const response = await axios.get('http://localhost:8080/api/student/deptNo', {
+        headers: {
+          Authorization: 'Bearer <token>', //??????????????????????
+        },
+      });
+
+      setDeptNo(response.data.deptNo);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
 
   const fetchCandidates = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/candidates');
+      const response = await axios.get('http://localhost:8080/api/candidates', {
+        params: {
+          department: deptNo,
+        },
+      });
       setCandidates(response.data);
     } catch (error) {
       console.error(error);
