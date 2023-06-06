@@ -4,48 +4,50 @@ import './CastVote.css';
 
 const CastVote = () => {
   const [candidates, setCandidates] = useState([]);
-  const [deptNo, setDeptNo] = useState(null);
+  //const [deptNo, setDeptNo] = useState(null);
 
 
-  useEffect(() => {
-    // Fetch the logged-in student's department number from the backend
-    fetchDeptNo();
-  }, []);
+  // useEffect(() => {
+  //   // Fetch the logged-in student's department number from the backend
+  //   fetchDeptNo();
+  // }, []);
 
   useEffect(() => {
     // Fetch candidates when the department number is available
-    if (deptNo !== null) {
       fetchCandidates();
-    }
-  }, [deptNo]);
+    
+  }, []);
 
 
-  const fetchDeptNo = async () => {
-    try {
-      // Make an API call to fetch the logged-in student's department number
-      const token = localStorage.getItem('token'); // Retrieve the token from local storage
-      const response = await axios.get('http://localhost:8080/api/student/deptNo', {
-        headers: {
-          Authorization: 'Bearer <token>', //??????????????????????
-        },
-      });
+  // const fetchDeptNo = async () => {
+  //   try {
+  //     // Make an API call to fetch the logged-in student's department number
+  //     const token = localStorage.getItem('token'); // Retrieve the token from local storage
+  //     const response = await axios.get('http://localhost:8080/api/student/deptNo', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`, //??????????????????????
+  //       },
+  //     });
 
-      setDeptNo(response.data.deptNo);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     setDeptNo(response.data.deptNo);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
 
 
   const fetchCandidates = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/candidates', {
-        params: {
-          department: deptNo,
+      const token = localStorage.getItem('token');
+      
+  
+      const candidatesResponse = await axios.get('http://localhost:8080/api/candidates', {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       });
-      setCandidates(response.data);
+      setCandidates(candidatesResponse.data);
     } catch (error) {
       console.error(error);
     }

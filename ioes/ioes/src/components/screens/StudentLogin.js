@@ -35,6 +35,8 @@ function StudentLogin() {
       });
 
       if (response.ok) {
+        const { token } = await response.json();
+        localStorage.setItem('token', token); // Store the token in localStorage
         console.log('Login successful');
         navigate('/student-main');
       } else {

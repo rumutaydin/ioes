@@ -16,6 +16,8 @@ async function connectDatabase(client) {
     try {
       // Fetch the candidate data based on the department number
       const candidates = await collection.find({ deptNo: department }).toArray();
+      console.log("getCanddidates function in dbcontroller")
+      console.log(candidates);
       return candidates;
     } catch (error) {
       console.error(error);
