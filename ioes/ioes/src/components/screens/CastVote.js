@@ -81,7 +81,7 @@ const CastVote = () => {
                   checked={candidate.selected || false}
                   onChange={() => handleCandidateSelection(candidate._id)}
                 />
-                <label htmlFor={candidate._id}>{candidate.name}</label>
+                <label className='deneme' htmlFor={candidate._id}>{candidate.name}</label>
               </li>
             ))}
           </ul>
