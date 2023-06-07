@@ -19,7 +19,7 @@ function StudentMainPage() {
           <Link to="election-status">Election Status</Link>
           <Link to="election-result">Election Resul</Link>
           <Link to ="help">Help</Link>
-          <Link to="upload-image">Upload</Link>
+          
 
 
         </div>

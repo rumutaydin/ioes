@@ -75,23 +75,14 @@ const CastVote = () => {
     <div className="content-container">
       <div className="sidebar">
 
-        <Link to="became-candidate">Become a Candidate</Link>
-        <Link to="election-status">Election Status</Link>
-        <Link to="election-result">Election Resul</Link>
-        <Link to ="help">Help</Link>
-        <Link to="upload-image">Upload</Link>
+        <Link to="/student-main/became-candidate">Become a Candidate</Link>
+        <Link to="/student-main/election-status">Election Status</Link>
+        <Link to="/student-main/election-result">Election Result</Link>
+        <Link to ="/student-main/help">Help</Link>
       </div>
     </div>
   </div>
   
-
-
-
-
-
-
-
-
     <div className="cast-vote-container">
       <div className="cast-vote-banner">
         <h2 className="cast-vote-title">Iztech Online Election System</h2>
