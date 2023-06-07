@@ -16,7 +16,7 @@ async function connectDatabase(client) {
     try {
       // Fetch the candidate data based on the department number
       const candidates = await collection.find({ deptNo: department }).toArray();
-      console.log("getCanddidates function in dbcontroller")
+      console.log("getCandidates function in dbcontroller")
       console.log(candidates);
       return candidates;
     } catch (error) {
@@ -24,6 +24,35 @@ async function connectDatabase(client) {
       throw new Error('Failed to fetch candidates');
     }
   }
-  
-  module.exports = { connectDatabase, getCandidates };
-  
+
+
+
+// UPDATESİZ HALİ ON NUMARA EKLİYO
+
+async function createElectionDocument(collection, startDate, endDate, startTime, endTime) {
+  try {
+    const startDateTime = new Date(startDate + 'T' + startTime);
+    const endDateTime = new Date(endDate + 'T' + endTime);
+
+    const electionDocument = {
+      startDate: startDateTime,
+      endDate: endDateTime,
+      startTime: startTime,
+      endTime: endTime,
+    };
+
+    // Insert the election document into the collection
+    const result = await collection.insertOne(electionDocument);
+
+    console.log(`Created Election Document with ID: ${result.insertedId}`);
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to create election document');
+  }
+}
+
+module.exports = { connectDatabase, getCandidates, createElectionDocument };
+
+
+
+

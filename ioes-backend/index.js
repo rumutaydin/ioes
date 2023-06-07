@@ -15,7 +15,10 @@ const client = new MongoClient(uri, {
   }
 });
 
-const { connectDatabase, getCandidates } = require('./controllers/databaseController');
+
+// ÇALIŞAN KISIM
+
+const { connectDatabase, getCandidates, createElectionDocument } = require('./controllers/databaseController');
 
 connectDatabase(client);
 
@@ -54,6 +57,7 @@ app.post('/api/student/login', async (req, res) => {
     }
 });
 
+
 app.post('/api/admin/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -64,9 +68,9 @@ app.post('/api/admin/login', async (req, res) => {
     const collection = db.collection("admins");
 
     // Find the user with the provided username and password
-    const user = await collection.findOne({ username, password });
+    const admin = await collection.findOne({ username, password });
 
-    if (user) {
+    if (admin) {
       // Successful login
       res.status(200).json({ message: 'Login successful' });
     } else {
@@ -125,9 +129,30 @@ app.get('/api/candidates', async (req, res) => {
 });
 
 
+///////////////////////
+app.post('/api/election', async (req, res) => {
+  try {
+    // Use the connected database instance
+    const db = client.db('election');
+    const collection = db.collection('elections');
+
+    const { startDate, endDate, startTime, endTime } = req.body;
+
+    // Create the election document
+    await createElectionDocument(collection, startDate, endDate, startTime, endTime);
+
+    res.status(200).json({ message: 'Election document created successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+/////////////////////////////////
+
+
   
 app.listen(8080, () => {
     console.log('Server is running on port 8080');
 });
-
 
