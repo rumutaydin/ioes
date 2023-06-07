@@ -17,7 +17,7 @@ function StudentMainPage() {
           <Link to="became-candidate">Become a Candidate</Link>
           <Link to="cast-vote">Cast Vote</Link>
           <Link to="election-status">Election Status</Link>
-          <Link to="election-result">Election Resul</Link>
+          <Link to="election-result">Election Result</Link>
           <Link to ="help">Help</Link>
           
 
