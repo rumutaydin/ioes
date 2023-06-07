@@ -5,6 +5,8 @@ require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.JWT_SECRET;
+var path = require('path');
+const multer = require('multer');
 
 const uri = "mongodb+srv://eren:eren@ioesdb.12eqtdm.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
@@ -34,14 +36,14 @@ app.post('/api/student/login', async (req, res) => {
       // Connect to the MongoDB database
       
       const db = client.db("election");
-      const collection = db.collection("users");
+      const collection = db.collection("students");
   
       // Find the user with the provided username and password
       const student = await collection.findOne({ username, password });
   
       if (student) {
         // Successful login
-        const token = jwt.sign({ deptNo: student.deptNo }, secretKey); // Create a JWT with the username as the payload
+        const token = jwt.sign({ deptNo: student.deptNo, username: student.username }, secretKey); // Create a JWT with the username as the payload
         res.status(200).json({ message: 'Login successful', token });
       } else {
         // Invalid credentials
@@ -122,6 +124,93 @@ app.get('/api/candidates', async (req, res) => {
 
     // Send the candidate data as a response
     res.status(200).json(candidates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+const storage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+  const filetypes = /pdf/;
+  const mimetype = filetypes.test(file.mimetype);
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb('Error: Only PDF files are allowed');
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter
+});
+
+app.post('/api/becomecandidate', upload.array('file', 3), async (req, res) => {
+  const files = req.files;
+  if (!files || files.length !== 3) {
+    return res.status(400).json({ error: 'Exactly 3 files must be selected!' });
+  }
+  try {  
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, secretKey);
+    const username = decodedToken.username;
+
+    // Extract validDocs array from req.files
+    const validDocs = files.map(file => file.buffer);
+
+    // Update the relevant user in the database
+    const db = client.db("election");
+    const collection = db.collection("students");
+
+    const check = await collection.findOne({ username: username });
+    if (check && check.validDocs.length === 3) {
+      return res.status(400).json({ error: 'You have already uploaded 3 files!' });
+    }
+
+    const user = await collection.findOneAndUpdate(
+      { username: username },
+      { $push: { validDocs: { $each: validDocs } } }
+    );
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'PDF files successfully uploaded!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  } 
+});
+
+app.delete('/api/deletecandidate', async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, secretKey);
+    const username = decodedToken.username;
+
+    const db = client.db("election");
+    const collection = db.collection("students");
+
+    const user = await collection.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (!user.validDocs || user.validDocs.length === 0) {
+      return res.status(400).json({ error: 'No files to delete' });
+    }
+
+    // Delete all files associated with the user
+    const deletedFiles = await collection.findOneAndUpdate(
+      { username: username },
+      { $set: { validDocs: [] } } 
+    );
+
+    res.status(200).json({ message: 'PDF files successfully deleted!' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

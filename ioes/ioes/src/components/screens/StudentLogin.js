@@ -79,12 +79,9 @@ function StudentLogin() {
             />
             <label className={password ? "hidden-label" : ""}>Password:</label>
           </div>
-          <div className="button-group">
-            <button type="submit" className="submit-button">
-              Login
-            </button>
-            
-          </div>
+          <button type="submit" className="submit-button">
+            Login
+          </button>
           <button onClick={handleForgotPassword} className="forgot-password-button">
             Forgot My Password
           </button>
