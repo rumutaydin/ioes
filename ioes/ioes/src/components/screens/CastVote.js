@@ -1,53 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './CastVote.css';
 
 const CastVote = () => {
   const [candidates, setCandidates] = useState([]);
-  //const [deptNo, setDeptNo] = useState(null);
-
+  //const [pics, setPics] = useState([]);
+  const [selectedCandidateId, setSelectedCandidateId] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [setsuccessMessage, setVoteStatMessage] = useState('');
+  const [votingStatus, setVotingStatus] = useState(false);
+  //const nav = useNavigate();
 
   // useEffect(() => {
-  //   // Fetch the logged-in student's department number from the backend
-  //   fetchDeptNo();
-  // }, []);
+  //   if (votingStatus) {
+  //     nav('/student-main');
+  //   }
+  // }, [votingStatus]);
 
   useEffect(() => {
     // Fetch candidates when the department number is available
-      fetchCandidates();
-    
+    fetchCandidates();
+    //checkVotingStat();
+
   }, []);
-
-
-  // const fetchDeptNo = async () => {
-  //   try {
-  //     // Make an API call to fetch the logged-in student's department number
-  //     const token = localStorage.getItem('token'); // Retrieve the token from local storage
-  //     const response = await axios.get('http://localhost:8080/api/student/deptNo', {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`, //??????????????????????
-  //       },
-  //     });
-
-  //     setDeptNo(response.data.deptNo);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-
 
   const fetchCandidates = async () => {
     try {
       const token = localStorage.getItem('token');
-      
-  
       const candidatesResponse = await axios.get('http://localhost:8080/api/candidates', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setCandidates(candidatesResponse.data);
+
+      // Extract the candidates and pics from the response
+      const { candidates } = candidatesResponse.data;
+      setCandidates(candidates);
     } catch (error) {
       console.error(error);
     }
@@ -56,41 +45,133 @@ const CastVote = () => {
   const handleCandidateSelection = (candidateId) => {
     const updatedCandidates = candidates.map((candidate) => {
       if (candidate._id === candidateId) {
-        return { ...candidate, selected: !candidate.selected };
+        return { ...candidate, selected: true };
       }
-      return candidate;
+      return { ...candidate, selected: false };
     });
     setCandidates(updatedCandidates);
+    setSelectedCandidateId(candidateId);
   };
 
-  return (
-    <div className="cast-vote-container">
-      <div className="cast-vote-banner">
-        <h2 className="cast-vote-title">Iztech Online Election System</h2>
-        <p className="cast-vote-subtitle">Cast your vote below</p>
+
+  const checkVotingStat = async() => {
+
+    try{
+    const token = localStorage.getItem('token');
+    const votingStatusOfUser = await axios.get('http://localhost:8080/api/checkVotingStat', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // return {votingStatusO}
+    const { votingStatus } = votingStatusOfUser.data; // Extract the votingStatus property from the response data
+    setVotingStatus(votingStatus);
+    } catch(error){
+      console.error('Error checking voting status:', error);
+    }
+
+  };
+
+  const handleVoteSubmit = async () => {
+
+    if (selectedCandidateId) {
+      try {
+        const token = localStorage.getItem('token');
+        console.log(token);
+        const response = await axios.post(
+          'http://localhost:8080/api/vote',
+          { selectedCandidateId }
+        );
+        setSuccessMessage(response.data.message);
+
+
+        const setVoteStatRes = await axios.post(
+          'http://localhost:8080/api/setVoteStat',
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setVoteStatMessage(setVoteStatRes.data.message);
+        // if (voteStatRes.status === 404) {
+        //   setVotingStatus(true);
+
+        // }
+        
+
+        // Navigate to the main page after a delay
+        // setTimeout(() => {
+        //   nav('/student-main'); 
+        // }, 2000); 
+      }
+      catch (error) {
+        console.error('Error submitting vote:', error);
+      }
+    } else {
+      console.log('No candidate selected');
+    }
+  };
+
+  checkVotingStat();
+
+  if (votingStatus) {
+    return (
+      <div>
+        <h1>You have already voted</h1>
+        <p>Thank you for your participation!</p>
       </div>
 
-      <div className="candidates-list">
-        {candidates.length > 0 ? (
-          <ul>
-            {candidates.map((candidate) => (
-              <li className="candidate-item" key={candidate._id}>
-                <input
-                  type="checkbox"
-                  id={candidate._id}
-                  checked={candidate.selected || false}
-                  onChange={() => handleCandidateSelection(candidate._id)}
-                />
-                <label htmlFor={candidate._id}>{candidate.name}</label>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Loading candidates...</p>
-        )}
+    );
+  } else {
+
+
+    return (
+      <div className="cast-vote-container">
+        <div className="cast-vote-banner">
+          <h2 className="cast-vote-title">Iztech Online Election System</h2>
+          <p className="cast-vote-subtitle">Cast your vote below</p>
+        </div>
+
+        <div className="candidates-list">
+          {candidates.length > 0 ? (
+            <ul className="candidates-grid">
+              {candidates.map((candidate) => (
+                <li className="candidate-item" key={candidate._id}>
+                  <div className="picture-frame">
+                    <img src={`data:image/jpeg;base64,${candidate.pic}`} alt={candidate.name} />
+                  </div>
+                  <div className="candidate-info">
+                    <label htmlFor={candidate._id}>{candidate.name}</label>
+                    <input
+                      name='vote'
+                      type="checkbox"
+                      id={candidate._id}
+                      checked={selectedCandidateId === candidate._id}
+                      onChange={() => handleCandidateSelection(candidate._id)}
+                    />
+                  </div>
+                  <div className="submit-section">
+                    <button onClick={handleVoteSubmit}>Submit Vote</button>
+                      {successMessage && <p className="success-message">{successMessage}</p>}
+                      {setsuccessMessage && <p className='success-message'> {setsuccessMessage}</p>}
+                </div>
+                </li>
+              ))}
+            </ul>
+
+          ) : (
+            <p>There are no candidates for your department...</p>
+          )}
+        </div>
+
+
       </div>
-    </div>
-  );
+    );
+  }
 }
+
 
 export default CastVote;
