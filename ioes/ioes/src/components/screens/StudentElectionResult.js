@@ -1,7 +1,7 @@
 import logo from './iyteee.png';
 import { Link } from 'react-router-dom';
 
-function ElectionResult(){
+function StudentElectionResult(){
 
     return(
 
@@ -28,4 +28,4 @@ function ElectionResult(){
     );
 }
 
-export default ElectionResult;
+export default StudentElectionResult;
