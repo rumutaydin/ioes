@@ -18,7 +18,7 @@ import AdminElectionResult from './components/screens/AdminElectionResult';
 
 import SetTimeDatePage from './components/screens/SetTimeDatePage';
 import Option from './components/screens/2-ilksayfa';               ////////////////////////////// aşağıda studentlogin rootsu değiştirdim
-
+import NotFound from './components/screens/404NotFound';
 
 const router = createBrowserRouter(
 
@@ -74,13 +74,12 @@ function App() {
         <Route path='/set-time-date' element={<SetTimeDatePage />} />   
         <Route path='/see-applications' element={<Blank />} />   
         <Route path="/admin-main" element={isLoggedIn ? <AdminMainPage /> : <Navigate to="/admin-login" />} />
-        {/* <Route path="*" element={<Navigate to="/student-login" />} /> */}
         <Route path="/admin-main/election-status" element={<AdminElectionStatus/>}/>
         <Route path="/admin-main/set-time-date"element={<SetTimeDatePage/>}/>
         <Route path="/admin-main/see-applications"element={<SeeApplications/>}/>
         <Route path="/admin-main/election-help"element={<AdminHelp/>}/>
         <Route path="/admin-main/election-results"element={<AdminElectionResult/>}/>
-
+        <Route path="*" element={<NotFound />} />
         
       </Routes>
     </Router>
