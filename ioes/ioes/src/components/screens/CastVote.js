@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import logo from './iyteee.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './CastVote.css';
+import { Link } from 'react-router-dom';
 
 const CastVote = () => {
   const [candidates, setCandidates] = useState([]);

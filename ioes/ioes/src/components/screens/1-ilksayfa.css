@@ -1,0 +1,16 @@
+#header {
+    background-color: red;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  #loginButtons {
+    margin-top: 20px;
+  }
+  
+  .loginButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+  }

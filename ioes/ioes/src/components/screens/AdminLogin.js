@@ -7,6 +7,7 @@ function AdminLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');  /// ekledim
 
 
   const handleEmailChange = (event) => {
@@ -30,10 +31,15 @@ function AdminLogin() {
       });
 
       if (response.ok) {
+        const { token } = await response.json();
+        localStorage.setItem('token', token); // Store the token in localStorage        buraya bu iki satırı ekledim diğerinden
+
         console.log('Login successful');
         navigate('/admin-main');
+
       } else {
         console.log('Invalid credentials');
+        
       }
     } catch (error) {
       console.error(error);

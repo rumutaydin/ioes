@@ -18,9 +18,8 @@ function StudentLogin() {
     setPassword(event.target.value);
   };
 
-  const handleAdminLogin = () => {
-    navigate('/admin-login');
-  };
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,7 +59,6 @@ function StudentLogin() {
           <h2 className="header-title">Izmir Institute of Technology</h2>
         </div>
         <p className="system-text">IZTECH Online Election System</p>
-        <button className='admin-log-button' onClick={handleAdminLogin}>Admin Login</button>
       </header>
       <div className="container">
       {errorMessage && <p>{errorMessage}</p>}
@@ -94,3 +92,12 @@ function StudentLogin() {
   );
 }
 export default StudentLogin;
+
+
+
+
+
+
+
+
+// <button onClick={handleAdminLogin}>Admin Login</button>   bu 91deydi.
