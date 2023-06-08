@@ -17,6 +17,14 @@ function SeeApplications(){
     <div className="content-container">
       <div className="sidebar">
 
+          <Link to="/admin-main">Admin Main</Link>
+          <Link to="/admin-main/set-time-date">Set Election Time and Date</Link>
+          <Link to="/admin-main/election-results">Election Results</Link>
+          <Link to="/admin-main/election-help">Help</Link>
+
+
+
+
         
       </div>
     </div>
