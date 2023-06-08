@@ -328,6 +328,9 @@ app.post('/api/vote', async (req, res) => {
   }
 });
 
+
+
+
 app.get('/api/getElection', async (req,res) => {
   // this api will be used for printing the time and date in text
   try{
