@@ -298,6 +298,60 @@ app.post('/api/vote', async (req, res) => {
   }
 });
 
+app.get('/api/getElection', async (req,res) => {
+  // this api will be used for printing the time and date in text
+  try{
+    const db = client.db('election');
+    const collection = db.collection('elections');
+
+    const elInf = await collection.findOne({});
+    if (elInf) {
+      res.status(200).json({elInf});
+    } else {
+      res.status(404).json({ message: 'No election has been set' });
+    }
+      
+
+  } catch(error){
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/api/updateElection', async(req, res) => {
+  // this api will be used for updating the database with new informations
+  try{
+    const db = client.db('election');
+    const collection = db.collection('elections');
+
+    const { startDate, endDate, startTime, endTime } = req.body;
+
+    const update = {
+      $set: {
+        startDate,
+        endDate,
+        startTime,
+        endTime
+      }
+    };
+    const options = {
+      returnOriginal: false
+    };
+
+    const updatedDocument = await collection.findOneAndUpdate({}, update, options);
+
+    if (updatedDocument.value) {
+      res.status(200).json({ message: 'Election document updated successfully', updatedDocument });
+    } else {
+      res.status(404).json({ message: 'No election document found' });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+})
+
 
 app.post('/api/election', async (req, res) => {
   try {

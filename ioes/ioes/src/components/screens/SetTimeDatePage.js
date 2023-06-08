@@ -124,7 +124,7 @@ const SetTimeDatePage = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [election, setElection] = useState(null);
-  const [submitted, setSubmitted] = useState(false); // Track if the election is already submitted
+  //const [submitted, setSubmitted] = useState(false); // Track if the election is already submitted
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
@@ -133,10 +133,10 @@ const SetTimeDatePage = () => {
 
   const fetchElection = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/election');
+      const response = await fetch('http://localhost:8080/api/getElection');
       if (response.ok) {
         const electionData = await response.json();
-        setElection(electionData);
+        setElection(electionData.elInf);
       } else {
         console.error('Failed to fetch election document');
       }
@@ -161,11 +161,9 @@ const SetTimeDatePage = () => {
     setEndTime(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleUpdate = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/election', {
+      const response = await fetch('http://localhost:8080/api/updateElection', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -174,12 +172,11 @@ const SetTimeDatePage = () => {
       });
 
       if (response.ok) {
-        console.log('Election document created successfully');
-        setSubmitted(true); // Election is submitted
-        setSuccessMessage('Election document created successfully'); // Set success message
-        fetchElection();
+        console.log('Election document updated successfully');
+        setSuccessMessage('Election document updated successfully');
+        //fetchElection();
       } else {
-        console.error('Failed to create election document');
+        console.error('Failed to update election document');
       }
     } catch (error) {
       console.error(error);
@@ -189,35 +186,35 @@ const SetTimeDatePage = () => {
   return (
     <div className="set-time-date-page">
       <h2>Set Election Time and Date</h2>
-      {!submitted && (
-        <form onSubmit={handleSubmit}>
-          {/* Input boxes */}
-          <div className="form-group">
-            <label htmlFor="start-date">Election Start Date:</label>
-            <input type="date" id="start-date" value={startDate} onChange={handleStartDateChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="end-date">Election End Date:</label>
-            <input type="date" id="end-date" value={endDate} onChange={handleEndDateChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="start-time">Election Start Time:</label>
-            <input type="time" id="start-time" value={startTime} onChange={handleStartTimeChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="end-time">Election End Time:</label>
-            <input type="time" id="end-time" value={endTime} onChange={handleEndTimeChange} />
-          </div>
-          <button type="submit">Save</button>
-        </form>
-      )}
-      {submitted && election && (
+      <form>
+        {/* Input boxes */}
+        <div className="form-group">
+          <label htmlFor="start-date">Election Start Date:</label>
+          <input type="date" id="start-date" value={startDate} onChange={handleStartDateChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="end-date">Election End Date:</label>
+          <input type="date" id="end-date" value={endDate} onChange={handleEndDateChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="start-time">Election Start Time:</label>
+          <input type="time" id="start-time" value={startTime} onChange={handleStartTimeChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="end-time">Election End Time:</label>
+          <input type="time" id="end-time" value={endTime} onChange={handleEndTimeChange} />
+        </div>
+      </form>
+      {election && (
         <div className="election-info">
           <h3>Election Document:</h3>
-          <p>{successMessage}</p> {/* Display success message */}
-          {/* Display election details */}
+          <p>
+            Election starts at {election.startDate} {election.startTime}, ends at {election.endDate} {election.endTime}
+          </p>
+          <button onClick={handleUpdate}>Update</button>
         </div>
       )}
+      {successMessage && <p>{successMessage}</p>}
     </div>
   );
 };

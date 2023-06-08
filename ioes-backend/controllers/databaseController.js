@@ -12,16 +12,16 @@ async function connectDatabase(client) {
     }
   }
 
-  async function getCandidates(collection, department) {
-    try {
-      // Fetch the candidate data based on the department number
-      const candidates = await collection.find({ deptNo: department }).toArray();
-      return candidates;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Failed to fetch candidates');
-    }
+async function getCandidates(collection, department) {
+  try {
+    // Fetch the candidate data based on the department number
+    const candidates = await collection.find({ deptNo: department }).toArray();
+    return candidates;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch candidates');
   }
+}
 
 
 
