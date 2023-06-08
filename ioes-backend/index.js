@@ -154,7 +154,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
 });
 
 app.post('/api/becomecandidate', upload.array('file', 3), async (req, res) => {
@@ -167,8 +167,12 @@ app.post('/api/becomecandidate', upload.array('file', 3), async (req, res) => {
     const decodedToken = jwt.verify(token, secretKey);
     const username = decodedToken.username;
 
-    // Extract validDocs array from req.files
-    const validDocs = files.map(file => file.buffer);
+    const validDocs = files.map(file => {
+      return {
+        fileName: file.originalname,
+        fileData: file.buffer,
+      };
+    });
 
     // Update the relevant user in the database
     const db = client.db("election");
@@ -181,7 +185,9 @@ app.post('/api/becomecandidate', upload.array('file', 3), async (req, res) => {
 
     const user = await collection.findOneAndUpdate(
       { username: username },
-      { $push: { validDocs: { $each: validDocs } } }
+      {
+        $push: { validDocs: { $each: validDocs } },
+      }
     );
     
     if (!user) {
@@ -194,6 +200,8 @@ app.post('/api/becomecandidate', upload.array('file', 3), async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   } 
 });
+
+
 
 app.delete('/api/deletecandidate', async (req, res) => {
   try {
@@ -394,8 +402,6 @@ app.post('/api/election', async (req, res) => {
 });
 
 /////////////////////////////////
-
-
   
 app.listen(8080, () => {
     console.log('Server is running on port 8080');
