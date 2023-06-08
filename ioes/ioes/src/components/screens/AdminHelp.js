@@ -14,6 +14,13 @@ function AdminHelp(){
     </header>
     <div className="content-container">
       <div className="sidebar">
+
+          <Link to="/admin-main">Admin Main</Link>
+          <Link to="/admin-main/set-time-date">Set Election Time and Date</Link>
+          <Link to="/admin-main/see-applications">See Candidate Applications</Link>
+          <Link to="/admin-main/election-results">Election Results</Link>
+
+
        
        
       </div>

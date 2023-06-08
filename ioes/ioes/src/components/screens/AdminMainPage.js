@@ -39,7 +39,6 @@ function AdminMainPage() {
 
           <Link to="set-time-date">Set Election Time and Date</Link>
           <Link to="see-applications">See Candidate Applications</Link>
-          <Link to="election-status">Election Status</Link>
           <Link to="election-results">Election Results</Link>
           <Link to="election-help">Help</Link>
 

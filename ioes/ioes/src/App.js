@@ -13,7 +13,6 @@ import StudentElectionResult from './components/screens/StudentElectionResult';
 import SeeApplications from './components/screens/SeeApplications';
 import StudentHelp from './components/screens/StudentHelp';
 import AdminHelp from './components/screens/AdminHelp';
-import AdminElectionStatus from './components/screens/AdminElectionStatus';
 import AdminElectionResult from './components/screens/AdminElectionResult';
 
 import SetTimeDatePage from './components/screens/SetTimeDatePage';
@@ -74,7 +73,6 @@ function App() {
         <Route path='/set-time-date' element={<SetTimeDatePage />} />   
         <Route path='/see-applications' element={<Blank />} />   
         <Route path="/admin-main" element={isLoggedIn ? <AdminMainPage /> : <Navigate to="/admin-login" />} />
-        <Route path="/admin-main/election-status" element={<AdminElectionStatus/>}/>
         <Route path="/admin-main/set-time-date"element={<SetTimeDatePage/>}/>
         <Route path="/admin-main/see-applications"element={<SeeApplications/>}/>
         <Route path="/admin-main/election-help"element={<AdminHelp/>}/>
