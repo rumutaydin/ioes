@@ -226,6 +226,28 @@ app.delete('/api/deletecandidate', async (req, res) => {
   }
 });
 
+app.get('/api/checkEligibility', async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, secretKey);
+    const username = decodedToken.username;
+
+    const db = client.db("election");
+    const collection = db.collection("students");
+
+    const user = await collection.findOne({ username: username });
+
+    const activeStu = user.activeStu;
+    const discipPunish = user.discipPunish;
+    const grade = user.grade;
+    const gpa = user.gpa;
+
+    res.status(200).json({ activeStu, discipPunish, grade, gpa });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 ///////////////////////
 app.post('/api/setVoteStat', async(req, res) => {
