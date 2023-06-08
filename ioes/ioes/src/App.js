@@ -8,9 +8,13 @@ import { BrowserRouter as Router, Route, Routes ,createRoutesFromElements,Router
 import Blank from './components/screens/Blank';
 import CastVote from './components/screens/CastVote';
 import BecameACandidate from './components/screens/BecameACandidate';
-import ElectionStatus from './components/screens/ElectionStatus';
-import ElectionResult from './components/screens/ElectionResult';
-import Help from './components/screens/Help';
+import StudentElectionStatus from './components/screens/StudentElectionStatus';
+import StudentElectionResult from './components/screens/StudentElectionResult';
+import SeeApplications from './components/screens/SeeApplications';
+import StudentHelp from './components/screens/StudentHelp';
+import AdminHelp from './components/screens/AdminHelp';
+import AdminElectionStatus from './components/screens/AdminElectionStatus';
+import AdminElectionResult from './components/screens/AdminElectionResult';
 
 import SetTimeDatePage from './components/screens/SetTimeDatePage';
 import Option from './components/screens/2-ilksayfa';               ////////////////////////////// aşağıda studentlogin rootsu değiştirdim
@@ -27,14 +31,11 @@ const router = createBrowserRouter(
     <Route path="/student-login" element={<StudentLogin />} />
     <Route path="/admin-login" element={<AdminLogin/>} /> 
     <Route path="/admin-main" element={<AdminMainPage />} />
-
-
     <Route path='/student-main' element = {<StudentMainPage/>}/>
     <Route path='/student-main/became-candidate' element = {<BecameACandidate/>}/>
     <Route path='/student-main/cast-vote' element={<CastVote/>}/>
-    <Route path='/student-main/election-status'element={<ElectionStatus/>}/>
-    <Route path='/student-main/election-result' element= {<ElectionResult/>}/>
-    <Route path='/student-main/help'element={<Help/>}/>
+    <Route path='/student-main/election-status'element={<StudentElectionStatus/>}/>
+    <Route path='/student-main/election-result' element= {<StudentElectionResult/>}/>
 
     
     </>
@@ -65,15 +66,21 @@ function App() {
         <Route path="/admin-main" element={<AdminMainPage />} />
         <Route path='/student-main/became-candidate' element={<BecameACandidate />} />
         <Route path='/student-main/cast-vote' element={<CastVote />} />
-        <Route path='/student-main/election-status' element={<ElectionStatus />} />
-        <Route path='/student-main/election-result' element={<ElectionResult />} />
-        <Route path='/student-main/help' element={<Help />} />
+        <Route path='/student-main/election-status' element={<StudentElectionStatus />} />
+        <Route path='/student-main/election-result' element={<StudentElectionResult />} />
+        <Route path='/student-main/help' element={<StudentHelp />} />
 
         <Route path='/' element={<Option />} />       
         <Route path='/set-time-date' element={<SetTimeDatePage />} />   
         <Route path='/see-applications' element={<Blank />} />   
         <Route path="/admin-main" element={isLoggedIn ? <AdminMainPage /> : <Navigate to="/admin-login" />} />
-        <Route path="*" element={<Navigate to="/student-login" />} />
+        {/* <Route path="*" element={<Navigate to="/student-login" />} /> */}
+        <Route path="/admin-main/election-status" element={<AdminElectionStatus/>}/>
+        <Route path="/admin-main/set-time-date"element={<SetTimeDatePage/>}/>
+        <Route path="/admin-main/see-applications"element={<SeeApplications/>}/>
+        <Route path="/admin-main/election-help"element={<AdminHelp/>}/>
+        <Route path="/admin-main/election-results"element={<AdminElectionResult/>}/>
+
         
       </Routes>
     </Router>
