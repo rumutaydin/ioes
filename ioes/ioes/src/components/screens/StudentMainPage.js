@@ -42,6 +42,7 @@ function StudentMainPage() {
           <Link to="election-status">Election Status</Link>
           <Link to="election-result">Election Result</Link>
           <Link to ="help">Help</Link>
+          <Link to="/">Log Out</Link>
           
 
 

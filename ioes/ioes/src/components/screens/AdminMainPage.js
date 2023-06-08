@@ -41,6 +41,7 @@ function AdminMainPage() {
           <Link to="see-applications">See Candidate Applications</Link>
           <Link to="election-results">Election Results</Link>
           <Link to="election-help">Help</Link>
+          <Link to="/">Log Out</Link>
 
 
         </div>

@@ -132,6 +132,7 @@ function BecameACandidate() {
               <Link to="/student-main/election-status">Election Status</Link>
               <Link to="/student-main/election-result">Election Result</Link>
               <Link to="/student-main/help">Help</Link>
+              <Link to="/">Log Out</Link>
             </div>
             <div className="form-container">
               <h2>Upload Documents</h2>

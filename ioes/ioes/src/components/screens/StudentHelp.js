@@ -19,6 +19,7 @@ function StudentHelp(){
         <Link to="/student-main/cast-vote">Cast Vote</Link>
         <Link to="/student-main/election-status">Election Status</Link>
         <Link to="/student-main/election-result">Election Result</Link>
+        <Link to="/">Log Out</Link>
       </div>
     </div>
   </div>
