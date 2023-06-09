@@ -1,7 +1,7 @@
 import logo from './iyteee.png';
 import { Link } from 'react-router-dom';
 
-function Help(){
+function AdminElectionStatus(){
 
     return(
 
@@ -14,11 +14,7 @@ function Help(){
     </header>
     <div className="content-container">
       <div className="sidebar">
-        <Link to="/student-main">Student Main</Link>
-        <Link to="/student-main/became-candidate">Become a Candidate</Link>
-        <Link to="/student-main/cast-vote">Cast Vote</Link>
-        <Link to="/student-main/election-status">Election Status</Link>
-        <Link to="/student-main/election-result">Election Result</Link>
+       
       </div>
     </div>
   </div>
@@ -32,4 +28,4 @@ function Help(){
 
 }
 
-export default Help
+export default AdminElectionStatus

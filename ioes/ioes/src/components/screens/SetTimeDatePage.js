@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SetTimeDatePage.css';
+import logo from './iyteee.png';
+import { Link } from 'react-router-dom';
 
 
 
@@ -184,7 +186,27 @@ const SetTimeDatePage = () => {
   };
 
   return (
-    <div className="set-time-date-page">
+
+    <>
+<div className="main-container">
+      <header className="header-container">
+        <h1 className="header-title">IZTECH STUDENT COUNCIL ELECTION SYSTEM</h1>
+        <img src={logo} alt="Logo" className="logo" />
+      </header>
+      <div className="content-container">
+        <div className="sidebar">
+          
+
+          <Link to="/admin-main">Admin Main</Link>
+          <Link to="/admin-main/see-applications">See Candidate Applications</Link>
+          <Link to="/admin-main/election-results">Election Results</Link>
+          <Link to="/admin-main/election-help">Help</Link>
+          <Link to="/">Log Out</Link>
+
+
+        </div>
+
+        <div className="set-time-date-page">
       <h2>Set Election Time and Date</h2>
       <form>
         {/* Input boxes */}
@@ -216,6 +238,13 @@ const SetTimeDatePage = () => {
       )}
       {successMessage && <p>{successMessage}</p>}
     </div>
+
+
+
+      </div>
+    </div>
+
+    </>
   );
 };
 

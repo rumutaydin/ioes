@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './iyteee.png';
 import './3-AdminMainPage.css'; // Import the CSS file
 import { useNavigate} from 'react-router-dom';               /////////////////////
+import { Link } from 'react-router-dom';
 
 function AdminMainPage() {
 
@@ -34,11 +35,15 @@ function AdminMainPage() {
       </header>
       <div className="content-container">
         <div className="sidebar">
-          <a href="/set-time-date">Set Election Time and Date</a>
-          <a href="/see-applications">See Candidate Applications</a>
-          <a href="/election-status">Election Status</a>
-          <a href="/election-results">Election Results</a>
-          <a href="/election-help">Help</a>
+          
+
+          <Link to="set-time-date">Set Election Time and Date</Link>
+          <Link to="see-applications">See Candidate Applications</Link>
+          <Link to="election-results">Election Results</Link>
+          <Link to="election-help">Help</Link>
+          <Link to="/">Log Out</Link>
+
+
         </div>
         <div className="main-content">
           <p>Welcome to Iztech Student Council Election System</p>
