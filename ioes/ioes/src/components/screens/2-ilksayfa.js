@@ -17,9 +17,9 @@ const Option = () => {
   };
 
   return (
-    <div className="main-container">
+    <div className="main-container1">
       <header>
-        <h1 className="header-title">IZTECH STUDENT ONLINE ELECTION SYSTEM</h1>
+        <h1 className="header-title1">IZTECH STUDENT ONLINE ELECTION SYSTEM</h1>
         <img src={logo} alt="Logo" className="logo" />
       </header>
       <div id="loginButtons">
