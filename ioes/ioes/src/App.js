@@ -10,6 +10,7 @@ import CastVote from './components/screens/CastVote';
 import BecameACandidate from './components/screens/BecameACandidate';
 import ElectionStatus from './components/screens/ElectionStatus';
 import ElectionResult from './components/screens/ElectionResult';
+import SeeApplications from './components/screens/SeeApplications';
 import Help from './components/screens/Help';
 
 import SetTimeDatePage from './components/screens/SetTimeDatePage';
@@ -71,7 +72,7 @@ function App() {
 
         <Route path='/' element={<Option />} />       
         <Route path='/set-time-date' element={<SetTimeDatePage />} />   
-        <Route path='/see-applications' element={<Blank />} />   
+        <Route path='/see-applications' element={<SeeApplications />} />   
         <Route path="/admin-main" element={isLoggedIn ? <AdminMainPage /> : <Navigate to="/admin-login" />} />
         <Route path="*" element={<Navigate to="/student-login" />} />
         

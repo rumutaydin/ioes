@@ -226,6 +226,92 @@ app.delete('/api/deletecandidate', async (req, res) => {
   }
 });
 
+//SEE APLİCATİON
+
+app.get('/api/students/valid-docs', async (req, res) => {
+  try {
+    // Use the connected database instance
+    const db = client.db("election");
+    const collection = db.collection("students");
+
+    // Fetch the students with empty validDocs array
+    const students = await collection.find({ validDocs: { $size: 3 } }).toArray();
+
+    // Extract the names from the student documents
+    //const names = students.map(student => student.name);
+    //console.log(names);
+    // Send the names as a response
+    console.log(students);
+    res.status(200).json({ students });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.put('/api/students/accept/:studentId', async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    // Use the connected database instance
+    const db = client.db("election");
+    const studentsCollection = db.collection("students");
+    const candidatesCollection = db.collection("candidates");
+
+    // Find the student by ID
+    const student = await studentsCollection.findOne({ _id: new ObjectId(studentId) });
+
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    // Update the student's candidate field to true
+    await studentsCollection.updateOne({ _id: new ObjectId(studentId) }, { $set: { candidate: true, validDocs: [] } });
+  
+
+    // Insert a document into the candidates collection
+    const candidateData = {
+      name: student.name,
+      countVote: 0,
+      deptNo: student.deptNo,
+      pic: student.Picture
+    };
+    await candidatesCollection.insertOne(candidateData);
+
+    res.status(200).json({ message: 'Student application accepted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.put('/api/students/reject/:studentId', async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    // Use the connected database instance
+    const db = client.db("election");
+    const studentsCollection = db.collection("students");
+
+    // Find the student by ID
+    const student = await studentsCollection.findOne({ _id: new ObjectId(studentId) });
+
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    // Empty the validDocs field
+    await studentsCollection.updateOne({ _id: new ObjectId(studentId) }, { $set: { validDocs: [] } });
+
+    res.status(200).json({ message: 'Student application rejected' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
 app.get('/api/checkEligibility', async (req, res) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -329,6 +415,7 @@ app.get('/api/getElection', async (req,res) => {
     const elInf = await collection.findOne({});
     if (elInf) {
       res.status(200).json({elInf});
+      console.log(elInf);
     } else {
       res.status(404).json({ message: 'No election has been set' });
     }

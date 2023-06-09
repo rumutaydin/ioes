@@ -118,7 +118,7 @@ function BecameACandidate() {
 
   checkEligibility();
 
-  if (activeStu || !discipPunish || grade > 2 || gpa > 2.75) {
+  if (activeStu && !discipPunish && grade > 2 && gpa > 2.75) {
     return (
         <div className="main-container">
           <header className="header-container">
