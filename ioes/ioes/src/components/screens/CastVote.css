@@ -90,3 +90,11 @@
   color: green;
   margin-top: 10px;
 }
+.already-voted{
+  text-align: center;
+  color: red;
+}
+.already-voted-thanks{
+  text-align: center;
+  color: black;
+}

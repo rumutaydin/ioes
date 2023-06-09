@@ -121,9 +121,9 @@ const CastVote = () => {
 
   if (votingStatus) {
     return (
-      <div>
-        <h1>You have already voted</h1>
-        <p>Thank you for your participation!</p>
+      <div className='already-voted'>
+        <h1 className='already-voted-you'>You have already voted</h1>
+        <p className='already-voted-thanks'>Thank you for your participation!</p>
       </div>
 
     );
