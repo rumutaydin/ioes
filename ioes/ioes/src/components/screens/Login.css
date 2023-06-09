@@ -47,7 +47,7 @@ label {
 }
 
 .hidden-label {
-  display: none;
+  /* display: none; */
 }
 
 .submit-button {
