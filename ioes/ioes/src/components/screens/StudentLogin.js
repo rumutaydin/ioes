@@ -64,20 +64,20 @@ function StudentLogin() {
       {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
+          <label className={email ? "hidden-label" : ""}>Email:</label>
             <input
               type="email"
               value={email}
               onChange={handleEmailChange}
             />
-            <label className={email ? "hidden-label" : ""}>Email:</label>
           </div>
           <div className="input-group">
+            <label className={password ? "hidden-label" : ""}>Password:</label>
             <input
               type="password"
               value={password}
               onChange={handlePasswordChange}
             />
-            <label className={password ? "hidden-label" : ""}>Password:</label>
           </div>
           <button type="submit" className="submit-button">
             Login
@@ -92,12 +92,3 @@ function StudentLogin() {
   );
 }
 export default StudentLogin;
-
-
-
-
-
-
-
-
-// <button onClick={handleAdminLogin}>Admin Login</button>   bu 91deydi.

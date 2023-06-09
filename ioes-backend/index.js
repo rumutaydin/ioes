@@ -413,8 +413,38 @@ app.post('/api/vote', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+app.get('/api/winners', async (req, res) => {
+  try {
+    const db = client.db("election");
+    const candidates = db.collection("candidates");
+    const election = await db.collection("elections").findOne();
 
+    const uniqueDeptNosCursor = candidates.aggregate([
+      { $group: { _id: "$deptNo" } },
+      { $project: { _id: 0, deptNo: "$_id" } }
+    ]);
 
+    const uniqueDeptNos = await uniqueDeptNosCursor.toArray();
+    const winners = [];
+
+    for (const { deptNo } of uniqueDeptNos) {
+      const winner = await candidates.findOne({ deptNo }, { sort: { countVote: -1 } });
+      winners.push(winner);
+    }
+
+    const date = new Date();
+    const electionEndTime = new Date(`${election.endDate} ${election.endTime}:00`);
+    if (electionEndTime <= date ){
+      res.json(winners);
+
+    }else {
+      res.status(400).json({ message: "Election is not yet ended." });
+    }
+  } catch (error) {
+    console.error("Error retrieving winners:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 app.get('/api/getElection', async (req,res) => {
