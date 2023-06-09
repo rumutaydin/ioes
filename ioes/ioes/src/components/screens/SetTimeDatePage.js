@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SetTimeDatePage.css';
 import logo from './iyteee.png';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -135,10 +136,10 @@ const SetTimeDatePage = () => {
 
   const fetchElection = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/getElection');
-      if (response.ok) {
-        const electionData = await response.json();
-        setElection(electionData.elInf);
+      const response = await axios.get('http://localhost:8080/api/getElection');
+      if (response.status === 200) {
+        const electionData = response.data;
+        setElection(electionData);
       } else {
         console.error('Failed to fetch election document');
       }

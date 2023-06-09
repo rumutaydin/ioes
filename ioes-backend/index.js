@@ -128,7 +128,7 @@ app.get('/api/checkVotingStat', async (req, res) => {
 
     const user = await collection.findOne({_id: userId});
     const votingStatus = user.votingStat
-    console.log(votingStatus)
+    //console.log(votingStatus)
 
     // Send the candidate data as a response
     res.status(200).json({ votingStatus });
@@ -249,7 +249,7 @@ app.get('/api/students/valid-docs', async (req, res) => {
     //const names = students.map(student => student.name);
     //console.log(names);
     // Send the names as a response
-    console.log(students);
+    console.log('ben student', students);
     res.status(200).json({ students });
   } catch (error) {
     console.error(error);
@@ -424,14 +424,11 @@ app.get('/api/getElection', async (req,res) => {
     const collection = db.collection('elections');
 
     const elInf = await collection.findOne({});
-    if (elInf) {
-      res.status(200).json({elInf});
-      console.log(elInf);
-    } else {
-      res.status(404).json({ message: 'No election has been set' });
-    }
-      
-
+    
+    res.status(200).json(elInf);
+    console.log(elInf);
+    // } else {
+    //   res.status(404).json({ message: 'No election has been set' });
   } catch(error){
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
