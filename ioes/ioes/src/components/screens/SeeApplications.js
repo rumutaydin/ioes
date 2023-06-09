@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import logo from './iyteee.png';
+import { Link } from 'react-router-dom';
 
 function SeeApplications() {
   const [stuWithDocs, setStuWithDocs] = useState([]);
@@ -61,6 +63,25 @@ function SeeApplications() {
   };
 
   return (
+    <>
+    <div className="main-container">
+          <header className="header-container">
+            <h1 className="header-title">IZTECH STUDENT COUNCIL ELECTION SYSTEM</h1>
+            <img src={logo} alt="Logo" className="logo" />
+          </header>
+          <div className="content-container">
+            <div className="sidebar">
+              
+    
+              <Link to="/admin-main">Admin Main</Link>
+              <Link to="/admin-main/see-applications">See Candidate Applications</Link>
+              <Link to="/admin-main/election-results">Election Results</Link>
+              <Link to="/admin-main/election-help">Help</Link>
+              <Link to="/">Log Out</Link>
+    
+    
+            </div>
+    
     <div className="cast-vote-container">
       <div className="cast-vote-banner">
         <h1 className="cast-vote-title">Iztech Online Election System</h1>
@@ -94,6 +115,11 @@ function SeeApplications() {
       </div>
       {message && <p>{message}</p>}
     </div>
+
+    </div>
+    </div>
+
+    </>
   );
 }
 
