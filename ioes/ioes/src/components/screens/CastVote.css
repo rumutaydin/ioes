@@ -1,7 +1,8 @@
- .cast-vote-container {
+.cast-vote-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #f2f2f2;
 }
 
 .cast-vote-banner {
@@ -11,33 +12,34 @@
 
 .cast-vote-title {
   font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  color: #333;
 }
 
 .cast-vote-subtitle {
   font-size: 16px;
-  color: #888;
+  color: #666;
 }
 
-.candidates-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-  padding: 10px;
-  background-color: #f8f8f8;
+.candidates-list p {
+  font-size: 14px;
+  color: #666;
+}
+
+.candidates-grid {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .candidate-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .picture-frame {
-  width: 150px;
-  height: 150px;
-  border: 2px solid #ccc;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -45,25 +47,46 @@
 .picture-frame img {
   width: 100%;
   height: 100%;
-  
+  object-fit: cover;
 }
 
 .candidate-info {
-  margin-top: 10px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  flex-grow: 1;
 }
 
-input[type="checkbox"] {
-  margin-top: 10px;
+.candidate-info label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+  display: inline-block;
+  width: 200px; /* Adjust the width as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-label {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.loading-message {
-  text-align: center;
+.submit-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   margin-top: 20px;
-  color: #888;
-} 
+}
+
+.submit-section button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.success-message {
+  font-size: 14px;
+  color: green;
+  margin-top: 10px;
+}
