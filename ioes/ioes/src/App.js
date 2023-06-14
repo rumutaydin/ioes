@@ -14,6 +14,7 @@ import SeeApplications from './components/screens/SeeApplications';
 import StudentHelp from './components/screens/StudentHelp';
 import AdminHelp from './components/screens/AdminHelp';
 import AdminElectionResult from './components/screens/AdminElectionResult';
+import AdminElectionStatus from './components/screens/AdminElectionStatus';
 
 import SetTimeDatePage from './components/screens/SetTimeDatePage';
 import Option from './components/screens/2-ilksayfa';               ////////////////////////////// aşağıda studentlogin rootsu değiştirdim
@@ -79,8 +80,10 @@ function App() {
         <Route path="/admin-main" element={isLoggedIn ? <AdminMainPage /> : <Navigate to="/admin-login" />} />
         <Route path="/admin-main/set-time-date"element={<SetTimeDatePage/>}/>
         <Route path="/admin-main/see-applications"element={<SeeApplications/>}/>
-        <Route path="/admin-main/election-help"element={<AdminHelp/>}/>
+        <Route path="/admin-main/admin-help"element={<AdminHelp/>}/>
         <Route path="/admin-main/election-results"element={<AdminElectionResult/>}/>
+        <Route path="/admin-main/election-status"element={<AdminElectionStatus/>}/>
+
         <Route path="*" element={<NotFound />} />
 
         
