@@ -115,12 +115,20 @@ const CastVote = () => {
       </header>
       <div className="content-container">
         <div className="sidebar">
-          <Link to="/student-main">Student Main</Link>
-          <Link to="/student-main/cast-vote">Cast Vote</Link>
-          <Link to="/student-main/election-status">Election Status</Link>
-          <Link to="/student-main/election-result">Election Result</Link>
-          <Link to="/student-main/help">Help</Link>
-          <Link to="/">Log Out</Link>
+          
+              <Link to="/student-main">Student Main</Link>
+              <Link to="/student-main/became-candidate">Become a Candidate</Link>
+              <Link to="/student-main/cast-vote">Cast Vote</Link>
+              <Link to="/student-main/election-status">Election Status</Link>
+              <Link to="/student-main/election-result">Election Result</Link>
+              <Link to ="/student-main/help">Help</Link>
+              <Link to="/">Log Out</Link>
+
+
+
+
+
+
         </div>
 
         {isElectionActive && !votingStatus && (
