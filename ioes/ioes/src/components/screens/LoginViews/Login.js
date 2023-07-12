@@ -1,11 +1,8 @@
 import React from 'react';
-import './1-ilksayfa.css';
-import { useNavigate } from 'react-router-dom';
+import './First.css';
 import logo from './iyteee.png';
 
 const Option = () => {
-  const navigate = useNavigate();
-
   const handleStudentLogin = () => {
     // Redirect to student-login route
     window.location.href = '/student-login';

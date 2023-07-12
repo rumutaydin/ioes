@@ -9,7 +9,8 @@ const secretKey = process.env.JWT_SECRET;
 var path = require('path');
 const multer = require('multer');
 
-const uri = "mongodb+srv://eren:eren@ioesdb.12eqtdm.mongodb.net/?retryWrites=true&w=majority";
+//dummy database uri
+const uri = "mongodb+srv://_:_@_._.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -17,9 +18,6 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
-
-
-// ÇALIŞAN KISIM
 
 const { connectDatabase, getCandidates, createElectionDocument } = require('./controllers/databaseController');
 
@@ -234,21 +232,13 @@ app.delete('/api/deletecandidate', async (req, res) => {
   }
 });
 
-//SEE APLİCATİON
+//SEE APLICATION
 
 app.get('/api/students/valid-docs', async (req, res) => {
   try {
-    // Use the connected database instance
     const db = client.db("election");
     const collection = db.collection("students");
-
-    // Fetch the students with empty validDocs array
     const students = await collection.find({ validDocs: { $size: 3 } }).toArray();
-
-    // Extract the names from the student documents
-    //const names = students.map(student => student.name);
-    //console.log(names);
-    // Send the names as a response
     console.log('ben student', students);
     res.status(200).json({ students });
   } catch (error) {
@@ -343,7 +333,6 @@ app.get('/api/checkEligibility', async (req, res) => {
   }
 });
 
-///////////////////////
 app.post('/api/setVoteStat', async(req, res) => {
   try{
     const token = req.headers.authorization.split(' ')[1];
@@ -356,16 +345,11 @@ app.post('/api/setVoteStat', async(req, res) => {
     
 
     const userId = new ObjectId(id);
-    // const student = await collection.findOne({_id: userId});
     const result = await collection.updateOne(
       { _id: userId },
       { $set: { votingStat: true } }
     );
-    // if (student.votingStat) {
-    //   console.log("222222222")
-    //   res.status(400).json({ message: 'You have already voted' });
-    // }
-
+   
     if (result.modifiedCount === 1) {
       res.status(200).json({ message: 'Voting status updated' });
       console.log("dfhfdhfdsh")
@@ -413,40 +397,6 @@ app.post('/api/vote', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-/*
-app.get('/api/winners', async (req, res) => {
-  try {
-    const db = client.db("election");
-    const candidates = db.collection("candidates");
-    const election = await db.collection("elections").findOne();
-
-    const uniqueDeptNosCursor = candidates.aggregate([
-      { $group: { _id: "$deptNo" } },
-      { $project: { _id: 0, deptNo: "$_id" } }
-    ]);
-
-    const uniqueDeptNos = await uniqueDeptNosCursor.toArray();
-    const winners = [];
-
-    for (const { deptNo } of uniqueDeptNos) {
-      const winner = await candidates.findOne({ deptNo }, { sort: { countVote: -1 } });
-      winners.push(winner);
-    }
-
-    const date = new Date();
-    const electionEndTime = new Date(`${election.endDate} ${election.endTime}:00`);
-    if (electionEndTime <= date ){
-      res.json(winners);
-
-    }else {
-      res.status(400).json({ message: "Election is not yet ended." });
-    }
-  } catch (error) {
-    console.error("Error retrieving winners:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});*/
 
 
 app.get('/api/winners', async (req, res) => {
@@ -561,8 +511,6 @@ app.post('/api/election', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-/////////////////////////////////
   
 app.listen(8080, () => {
     console.log('Server is running on port 8080');

@@ -1,4 +1,3 @@
-// dataBaseController.js
 
 async function connectDatabase(client) {
     try {
