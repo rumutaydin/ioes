@@ -5,4 +5,3 @@ IOES/ioes-backend -> Node.js express server - Backend
 Deployement -> Google Firebase Hosting, Functions
 Database -> MongoDB Atlas
 
--Endpoints changed with dummy localhost addresses for publishment of the project.
